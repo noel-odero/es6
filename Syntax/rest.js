@@ -5,8 +5,10 @@
 // average(7, 1432, 12, 13, 100) should return 312.8
 // average() should return 0
 
-function average(...args){
-    return [...args].reduce((curr,acc) => curr + acc) / [...args].length
-}
+// function average(...args){
+//     return [...args].reduce((curr,acc) => curr + acc) / [...args].length
+// }
+
+const average = (...args) => args.reduce((curr, acc) => curr + acc)/args.length
 
 console.log(average(2, 6))

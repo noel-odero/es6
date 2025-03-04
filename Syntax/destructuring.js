@@ -10,9 +10,11 @@
 
 const things = ['red', 'basketball', 'paperclip', 'green', 'computer', 'earth', 'udacity', 'blue', 'dogs'];
 
-const one = things[0];
-const two = things[3];
-const three = things[7];
+// const one = things[0];
+// const two = things[3];
+// const three = things[7];
+
+const [one, , ,two, , , ,three] = things;
 
 const colors = `List of Colors
 1. ${one}
