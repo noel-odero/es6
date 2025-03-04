@@ -14,3 +14,7 @@ function reverse(obj){
     }
     return newObj
 }
+
+const originalObj = {aa: "1", bf: "3", cq: "5"};
+
+console.log(reverse(originalObj)); 
