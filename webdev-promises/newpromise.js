@@ -1,4 +1,4 @@
-import { resolve } from "./webdev-promises/MyPromise"
+import { resolve } from "./MyPromise"
 
 class MyPromise {
     #onSuccess = () => {};
