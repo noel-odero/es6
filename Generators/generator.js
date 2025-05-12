@@ -10,7 +10,7 @@ function * simpleGenerator() {
 	console.log("After 3")
 }
 
-const generatorObject = simpleGenerator()
+const generatorObject = simpleGenerato
 
 const generatorObject2 = simpleGenerator()
 console.log(generatorObject.next())

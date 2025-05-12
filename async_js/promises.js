@@ -14,7 +14,7 @@ function getPost() {
 }
 
 
-function createPost(post, ) {
+function createPost(post ) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             posts.push(post)
