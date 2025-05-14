@@ -5,16 +5,24 @@ const STATE = {
 }
 
 class MyPromise {
-  #thenCbs = []
-  #catchCbs = []
+  #thencallbacks = []
+  #catchcallbacks = []
   #state = STATE.PENDING
   #value
   #onSuccessBind = this.#onSuccess.bind(this)
   #onFailBind = this.#onFail.bind(this)
 
-  constructor(cb) {
+/* 
+to create a promise, we do new Promise(() => {}) so we can see it takes a callback
+the callback takes two arguments, resolve and reject
+the callback is executed immediately, so we can use it to set the state of the promise, one for success and one for failure
+
+
+*/
+
+  constructor(callback) {
     try {
-      cb(this.#onSuccessBind, this.#onFailBind)
+      callback(this.#onSuccessBind, this.#onFailBind)
     } catch (e) {
       this.#onFail(e)
     }
@@ -22,24 +30,31 @@ class MyPromise {
 
   #runCallbacks() {
     if (this.#state === STATE.FULFILLED) {
-      this.#thenCbs.forEach(callback => {
+      this.#thencallbacks.forEach(callback => {
         callback(this.#value)
       })
 
-      this.#thenCbs = []
+      this.#thencallbacks = []
     }
 
     if (this.#state === STATE.REJECTED) {
-      this.#catchCbs.forEach(callback => {
+      this.#catchcallbacks.forEach(callback => {
         callback(this.#value)
       })
 
-      this.#catchCbs = []
+      this.#catchcallbacks = []
     }
   }
 
+
+  // #onSuccess is called when the promise is resolved
+  // implement them as private methids because they are not used outside the class
   #onSuccess(value) {
     queueMicrotask(() => {
+      // the following ensures that the promise is not already resolved or rejected
+      // if it is, we do nothing
+      // this is important because the promise can be resolved or rejected multiple times
+      // and we only want to run the callbacks once
       if (this.#state !== STATE.PENDING) return
 
       if (value instanceof MyPromise) {
@@ -62,7 +77,7 @@ class MyPromise {
         return
       }
 
-      if (this.#catchCbs.length === 0) {
+      if (this.#catchcallbacks.length === 0) {
         throw new UncaughtPromiseError(value)
       }
 
@@ -72,29 +87,29 @@ class MyPromise {
     })
   }
 
-  then(thenCb, catchCb) {
+  then(thencallback, catchcallback) {
     return new MyPromise((resolve, reject) => {
-      this.#thenCbs.push(result => {
-        if (thenCb == null) {
+      this.#thencallbacks.push(result => {
+        if (thencallback == null) {
           resolve(result)
           return
         }
 
         try {
-          resolve(thenCb(result))
+          resolve(thencallback(result))
         } catch (error) {
           reject(error)
         }
       })
 
-      this.#catchCbs.push(result => {
-        if (catchCb == null) {
+      this.#catchcallbacks.push(result => {
+        if (catchcallback == null) {
           reject(result)
           return
         }
 
         try {
-          resolve(catchCb(result))
+          resolve(catchcallback(result))
         } catch (error) {
           reject(error)
         }
@@ -104,18 +119,18 @@ class MyPromise {
     })
   }
 
-  catch(cb) {
-    return this.then(undefined, cb)
+  catch(callback) {
+    return this.then(undefined, callback)
   }
 
-  finally(cb) {
+  finally(callback) {
     return this.then(
       result => {
-        cb()
+        callback()
         return result
       },
       result => {
-        cb()
+        callback()
         throw result
       }
     )
@@ -209,4 +224,4 @@ class UncaughtPromiseError extends Error {
   }
 }
 
-module.exports = MyPromise
+export default MyPromise
