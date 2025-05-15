@@ -1,4 +1,4 @@
-const MyPromise = require("./MyPromise.js")
+import MyPromise from "./MyPromise.js"
 // const MyPromise = Promise
 
 const DEFAULT_VALUE = "default"
