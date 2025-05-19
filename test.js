@@ -1,44 +1,44 @@
-// function toCamelCase(s, n) {
-//     const splitArr = s.split(' ');
-//     let newArr = [];
+console.log("Introduction to Promises!");
 
-//     if (n === 1) {
-//         // First word stays lowercase, rest are capitalized
-//         newArr.push(splitArr[0].toLowerCase());
-//         for (let i = 1; i < splitArr.length; i++) {
-//             let word = splitArr[i];
-//             let newWord = word[0].toUpperCase() + word.slice(1).toLowerCase();
-//             newArr.push(newWord);
-//         }
-//         return newArr.join('');
-//     }
-//     if (n === 2) {
-//         for (let i = 0; i < splitArr.length; i++) {
-//           let word = splitArr[i].toLowerCase();
-    
-//           if (i === splitArr.length - 1) {
-//             // Last word remains lowercase
-//             newArr.push(word);
-//           } else {
-//             let lastIndex = word.length - 1;
-//             let newWord =
-//               word.slice(0, lastIndex) + word[lastIndex].toUpperCase();
-//             newArr.push(newWord);
-//           }
-//         }
-//         return newArr.join('');
-//       }
-    
+// A promise is a javascript object that allows us to do asynchronous calls
+// It provides a value when async op completes successfully, or an error when it doesn't
 
+// executor function is passed to the Promise constructor
+let promise = new Promise((resolve, reject) => {
+    // reject it after disaster happens
+    setTimeout(()=>{
+      // reject(new Error(`Jack fell down and ...`));
+      resolve("water")
+    }, 2000)
 
-// }
+})
 
-
-// console.log(toCamelCase('Hello World', 2))
-
-
-async function asyncFunction(){
-  return 'Hello World'
+const grandParentsCooking = () => {
+  promise
+  .then((data) => console.log(`Cooking starts with ${data}`))
+  
+  .catch((err) => console.log(`OMG: ${err.message}`))
 }
 
-console.log(asyncFunction())
+grandParentsCooking();
+
+
+
+// Promise states(internal) Internal because they are in built
+// - pending: when execution starts
+// -fulfilled: when promise resolves successfully
+// - rejected: When promise rejects
+
+// fulfilled / rejected -> settled
+
+
+// Result
+// -undefined: Initial state when state is pending
+// value - when promise resolves
+// error - when promise rejects
+
+
+// .then() - returns a promise or a sync value or an error
+// .catch() - handles rejections from promises
+// .finally()
+
