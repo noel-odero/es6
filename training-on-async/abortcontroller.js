@@ -6,13 +6,13 @@ async function fetchWithTimeout(url, timeout = 10) {
 
   // Create an AbortController instance to control the fetch request
   const controller = new AbortController();
-
+  const signal = controller.signal
   // Set a timer that will abort the fetch after `timeout` milliseconds
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
   try {
     // Make a fetch request with the abort controller's signal
-    const response = await fetch(url, { signal: controller.signal });
+    const response = await fetch(url, { signal });
 
     // If the fetch succeeds before the timeout, clear the timeout to avoid aborting it
     clearTimeout(timeoutId);
